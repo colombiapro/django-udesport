@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+{% block content %}
+  <main class="px-3">
+    {% if request.user.is_authenticated  %}
+    <h5 style="text-align: right"> {{user.codigo }} - {{user.tipo }}</h5>
+    {% else %}
+
+    {% endif %}
+
+  <section class="py-5 text-center">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-12 mx-auto">
+        <h1 class="fw-light">Gestor de Eventos - Editar Evento</h1>
+      </div>
+    </div>
+    <div class="main_form">
+        <form method="POST">
+            {% csrf_token %}
+            
+            {% for form in forms %}
+                <div>
+                    <label for="">{{ form.label }}</label>
+                    <input 
+                    type="{{ form.field.widget.input_type }}" 
+                    name="{{ form.name }}" 
+                    id="" 
+                    placeholder="{{ form.label }}"
+                    value="{{ form.value | default:''}}"
+                    >
+                </div>
+                <div>
+                    {{ form.errors }}
+                </div>
+            {% endfor %}
+            <div>
+                <input type="submit" value="Submit">
+                <a href="{% url 'eventos' %}" role="button">Cancel</a>
+            </div>    
+        </form>
+    </div>
+   
+  </section>
+
+  </main>
+
+{% endblock %}

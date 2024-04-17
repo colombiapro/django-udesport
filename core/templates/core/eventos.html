@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% block content %}
+  <main class="px-3">
+    {% if request.user.is_authenticated  %}
+    <h5 style="text-align: right"> {{user.codigo }} - {{user.tipo }}</h5>
+    {% else %}
+
+    {% endif %}
+
+  <section class="py-5 text-center">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-12 mx-auto">
+        <h1 class="fw-light">Gestor de Eventos </h1>
+      </div>
+    </div>
+    <div>
+      <form action="{% url 'create_event' %}" method="POST">
+        {% csrf_token %}
+        <input type="text" name="nombre_ev" placeholder="Nombre">
+        <input type="date" name="fecha">
+        <input type="text" name="lugar" placeholder="Lugar">
+        <textarea name="descripcion" rows="3" placeholder="Explique de qué trata el evento"></textarea>
+        <button>Crear</button>
+      </form>
+
+    </div>
+  </section>
+
+  </main>
+  
+  {% for evento in eventos  %}
+  <div>
+    <h3>
+      {{evento.nombre_ev}}
+    </h3>
+    <p>
+      {{evento.fecha}}
+    </p>
+    <p>
+      {{evento.lugar}}
+    </p>
+    <p>
+      {{evento.descripcion}}
+    </p>
+  </div>
+
+  <div>
+    <a href="{% url 'edit_event' evento.id %}">Editar</a>
+    <form action="{% url 'delete_event' evento.id %}" method="POST"> <!-- Debo enviar el id del evento a eliminar-->
+      {% csrf_token %}
+      <button>Borrar</button>
+    </form>
+  </div>
+  {% endfor %}
+
+
+
+{% endblock %}
